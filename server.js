@@ -9,7 +9,7 @@ const port = 8080;
 
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('banco-1', 'postgres', 'JM-]r2|F\`.*(f"Y', {
+const sequelize = new Sequelize('banco-1', 'postgres', '5xxu7<XmIc3+<s$Z', {
   dialect: 'postgres',
   host: '35.247.220.167',
   timestamps: false,
