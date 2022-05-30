@@ -1,7 +1,7 @@
 const express = require('express');
 const knex = require('knex');
 const app = express();
-const port = 3333;
+const port = 8080;
 // const database = require('./db');
 const User = require('./User');
 
