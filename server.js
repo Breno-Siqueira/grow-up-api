@@ -3,27 +3,39 @@ const knex = require('knex');
 const app = express();
 const port = 8080;
 // const database = require('./db');
-const User = require('./User');
+// const User = require('./User');
 
 // const sequelize = require('./db');
 
-// const Sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 
-// const sequelize = new Sequelize('banco-1', 'postgres', 'JM-]r2|F\`.*(f"Y', {
-//   dialect: 'postgres',
-//   host: '/cloudsql/35.247.220.167',
-//   timestamps: false,
-// });
-
-const database2 = knex({
-  client: 'pg',
-  connection: {
-    host: '35.247.220.167',
-    user: 'postgres',
-    password: 'JM-]r2|F\`.*(f"Y',
-    database: 'banco-1'
-  }
+const sequelize = new Sequelize('banco-1', 'postgres', 'JM-]r2|F\`.*(f"Y', {
+  dialect: 'postgres',
+  host: '35.247.220.167',
+  timestamps: false,
 });
+
+
+
+const connectDb = async ()=>{
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+}
+
+connectDb();
+// const database2 = knex({
+//   client: 'pg',
+//   connection: {
+//     host: '35.247.220.167',
+//     user: 'postgres',
+//     password: 'JM-]r2|F\`.*(f"Y',
+//     database: 'banco-1'
+//   }
+// });
 
 // console.log(database2());
 
