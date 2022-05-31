@@ -8,7 +8,7 @@ const uuid = require('uuid');
 
 // const sequelize = require('./db');
 
-const Sequelize = require('sequelize');
+// const Sequelize = require('sequelize');
 
 // const sequelize = new Sequelize('postgres', 'postgres', '5xxu7<XmIc3+<s$Z', {
 //   dialect: 'postgres',
@@ -16,16 +16,16 @@ const Sequelize = require('sequelize');
 //   timestamps: false,
 // });
 
-const config = {
-  username: 'postgres',
-  password: 'root',
-  database: 'postgres',
-  host: 'localhost',
-  post: '5432',
-  dialect: 'postgres',
-}
+// const config = {
+//   username: 'postgres',
+//   password: 'root',
+//   database: 'postgres',
+//   host: 'localhost',
+//   post: '5432',
+//   dialect: 'postgres',
+// }
 
-const sequelize = new Sequelize(config);
+// const sequelize = new Sequelize(config);
 
 
 
@@ -49,12 +49,14 @@ app.get('/', (req, res) => {
 
 app.post('/user', async (req, res) => {
   try {
+
+    const { nome, telefone, descricao, email } = req.body;
     const newUser = await User.create({
       id: uuid.v4(),
-      nome: 'Teste',
-      telefone: '89994117771',
-      descricao: 'teste',
-      email: 'Teste@teste.com',
+      nome: nome,
+      telefone: telefone,
+      descricao: descricao,
+      email: email,
     })
     console.log(newUser);
     res.status(200).json({ message: 'User created', newUser: newUser })
