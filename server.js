@@ -27,7 +27,11 @@ const uuid = require('uuid');
 
 // const sequelize = new Sequelize(config);
 
+app.use(bodyParser.json());
 
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 const connectDb = async () => {
   try {
