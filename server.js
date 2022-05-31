@@ -3,7 +3,7 @@ const knex = require('knex');
 const app = express();
 const port = 8080;
 // const database = require('./db');
-// const User = require('./User');
+const User = require('./User');
 
 // const sequelize = require('./db');
 
@@ -17,7 +17,7 @@ const sequelize = new Sequelize('postgres', 'postgres', '5xxu7<XmIc3+<s$Z', {
 
 
 
-const connectDb = async ()=>{
+const connectDb = async () => {
   try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
@@ -58,6 +58,22 @@ connectDb();
 
 app.get('/', (req, res) => {
   res.send('Hello World!!');
+});
+
+app.post('/user', async (req, res) => {
+  const newUser = await User.create({
+    nome: 'mouse',
+    telefone: '89994117771',
+    descricao: 'teste',
+    email: 'breno@teste.com',
+  })
+  console.log(newUser);
+  req.statusCode(200).json({ message: 'User created', newUser: newUser })
+});
+
+app.get('/users', async (req, res) => {
+  const userList = await User.findAll();
+  req.statusCode(200).json({ userList: userList })
 });
 
 app.get('/teste', (req, res) => {
