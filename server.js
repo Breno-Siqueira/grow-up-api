@@ -34,7 +34,7 @@ const connectDb = async () => {
   try {
     await database.authenticate();
     console.log('Connection has been established successfully.');
-    const resultado = await database.sync({ force: true });
+    const resultado = await database.sync();
     console.log('Sincronização: ', resultado);
   } catch (error) {
     console.error('Unable to connect to the database:', error);
