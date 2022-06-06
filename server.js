@@ -35,10 +35,9 @@ app.use((req, res, next) => {
   app.use(cors());
   next();
 });
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
-app.header
 
 const connectDb = async () => {
   try {
