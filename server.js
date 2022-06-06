@@ -5,6 +5,7 @@ const port = 8080;
 const database = require('./db');
 const User = require('./User'); 3
 const uuid = require('uuid');
+var cors = require('cors')
 
 // const sequelize = require('./db');
 
@@ -26,16 +27,24 @@ const uuid = require('uuid');
 // }
 
 // const sequelize = new Sequelize(config);
-
+app.use((req, res, next) => {
+  //Qual site tem permissão de realizar a conexão, no exemplo abaixo está o "*" indicando que qualquer site pode fazer a conexão
+  res.header("Access-Control-Allow-Origin", "*");
+  //Quais são os métodos que a conexão pode realizar na API
+  res.header("Access-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
+  app.use(cors());
+  next();
+});
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app.header
 
 const connectDb = async () => {
   try {
     await database.authenticate();
-    console.log('Connection has been established successfully.');
     const resultado = await database.sync();
-    console.log('Sincronização: ', resultado);
+    console.log('Connection has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
@@ -66,16 +75,72 @@ app.post('/user', async (req, res) => {
   }
 });
 
+app.get('/user/:id', async (req, res) => {
+  try {
+
+    const { id } = req.params;
+
+    const user = await User.findByPk(id);
+    console.log(user);
+
+    res.status(200).json({ user: user })
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.put('/user/:id', async (req, res) => {
+  try {
+
+    const { id } = req.params;
+    const { userEdited } = req.body;
+    // const userteste = await User.findByPk(id);
+    console.log(userEdited)
+    const user = await User.update(userEdited, { where: { id: id } });
+    // userteste.update(userEdited);
+
+    if (user && user[0])
+      res.status(200).json({ message: 'User updated', newUser: user })
+    else
+      res.status(400).json({ message: 'Erro ao atualizar' })
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.delete('/user/:id', async (req, res) => {
+  try {
+
+    const { id } = req.params;
+    const user = await User.findByPk(id);
+    let result;
+    if (user) {
+      result = await user.destroy()
+      console.log(result)
+      res.status(200).json({ message: 'Usuário deletado' });
+
+    }
+    else
+      res.status(404).json({ message: 'Usuário não encontrado' })
+    console.log(response);
+
+    // if (user && user[0])
+    //   res.status(200).json({ message: 'User updated', newUser: user })
+    // else
+    //   res.status(400).json({ message: 'Erro ao atualizar' })
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 app.get('/users', async (req, res) => {
   try {
     const userList = await User.findAll();
     console.log(userList);
-    res.send(userList);
+    res.status(200).send(userList);
   } catch (error) {
     console.log(error);
   }
-
-  // res.statusCode(200).json({ userList: userList })
 });
 
 app.get('/teste', (req, res) => {
