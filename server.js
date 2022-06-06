@@ -5,7 +5,7 @@ const port = 8080;
 const database = require('./db');
 const User = require('./User'); 3
 const uuid = require('uuid');
-var cors = require('cors')
+const cors = require('cors')
 
 // const sequelize = require('./db');
 
